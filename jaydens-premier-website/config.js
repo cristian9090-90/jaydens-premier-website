@@ -22,8 +22,12 @@ const SITE_CONFIG = {
     // a public business address to appear (e.g. for a map embed).
     publicAddress: "[ADD PUBLIC BUSINESS LOCATION OR MAP EMBED]",
     businessHours: "[ADD BUSINESS HOURS]",
-    logo: "assets/images/logo_jaydens.jpeg"
+    logo: "assets/images/logo_jaydens.jpg"
   },
+
+  // Used to center the interactive Contact map. Change this if the
+  // business ZIP code changes — no other code needs to change.
+  mapZip: "07522",
 
   // Shown as small trust points under the hero. No licensing/insurance
   // claims are made here — add "Licensed & Insured" only once confirmed.
@@ -60,7 +64,7 @@ const SITE_CONFIG = {
   // Hero media. Swap these files (same names) to update the hero
   // without touching any code.
   hero: {
-    videoMp4: "assets/video/hoter.mp4",
+    videoMp4: "assets/video/hero-construction.mp4",
     poster: "assets/images/hero-poster.jpg",
     fallbackImage: "assets/images/hero-fallback.jpg",
     headline: "Built right. Designed to last.",

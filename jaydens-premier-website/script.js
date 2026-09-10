@@ -350,6 +350,16 @@
     video.addEventListener("error", showFallback);
   }
 
+  /* ---------------- Contact map (free Google Maps Embed, no API key) ---------------- */
+  function initContactMap() {
+    const frame = $("#contact-map");
+    if (!frame) return;
+    const zip = (SITE_CONFIG.mapZip || "").trim();
+    if (!zip) return;
+    const query = encodeURIComponent(`${zip}, ${SITE_CONFIG.company.state}`);
+    frame.src = `https://www.google.com/maps?q=${query}&output=embed`;
+  }
+
   /* ---------------- Smooth scroll for in-page anchors ---------------- */
   function initSmoothScroll() {
     $$('a[href^="#"]').forEach((link) => {
@@ -613,6 +623,7 @@
     initInfoModal();
     initBeforeAfter();
     initHeroVideo();
+    initContactMap();
     initSmoothScroll();
     initEstimateForm();
     initScrollReveal();
