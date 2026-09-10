@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Admin — Jayden's Premier Construction LLC</title>
+<meta name="robots" content="noindex, nofollow" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css" />
+
+<link rel="stylesheet" href="../style.css" />
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body class="admin-body">
+
+<div id="admin-root">
+
+  <!-- Login screen -->
+  <div class="admin-login-wrap" id="admin-login-screen">
+    <form class="admin-login-card" id="login-form">
+      <p class="admin-login-brand">Jayden's Premier Construction LLC</p>
+      <h1 class="admin-login-title">Admin panel</h1>
+      <div class="field">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" name="email" autocomplete="username" required />
+      </div>
+      <div class="field">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" name="password" autocomplete="current-password" required />
+      </div>
+      <p class="admin-error" id="login-error"></p>
+      <button type="submit" class="btn btn-gold btn-block" id="login-submit">Sign in</button>
+    </form>
+  </div>
+
+  <!-- Dashboard (shown after a valid session is confirmed) -->
+  <div class="admin-dashboard" id="admin-dashboard" hidden>
+    <header class="admin-topbar">
+      <div class="admin-topbar-brand">
+        <img src="../assets/images/logo.jpg" alt="" class="admin-topbar-logo" />
+        <span>Admin panel</span>
+      </div>
+      <div class="admin-topbar-actions">
+        <button type="button" class="admin-link-btn" id="open-password-modal">
+          <i class="ti ti-lock" aria-hidden="true"></i> Change password
+        </button>
+        <button type="button" class="admin-link-btn" id="logout-btn">
+          <i class="ti ti-logout" aria-hidden="true"></i> Sign out
+        </button>
+      </div>
+    </header>
+
+    <nav class="admin-tabs">
+      <button type="button" class="admin-tab is-active" data-tab="projects">Projects</button>
+      <button type="button" class="admin-tab" data-tab="testimonials">Reviews</button>
+    </nav>
+
+    <!-- Projects tab -->
+    <section class="admin-panel" id="tab-projects">
+      <div class="admin-panel-head">
+        <h2>Projects (before &amp; after)</h2>
+        <button type="button" class="btn btn-outline-dark" id="show-add-project">
+          <i class="ti ti-plus" aria-hidden="true"></i> Add project
+        </button>
+      </div>
+
+      <form class="admin-form" id="project-form" hidden>
+        <div class="admin-form-grid">
+          <div class="field">
+            <label for="project-name">Job name</label>
+            <input type="text" id="project-name" required placeholder="Roof replacement" />
+          </div>
+          <div class="field">
+            <label for="project-service">Service</label>
+            <input type="text" id="project-service" placeholder="Roofing" />
+          </div>
+          <div class="field">
+            <label for="project-location">City / area</label>
+            <input type="text" id="project-location" placeholder="Paterson, NJ" />
+          </div>
+        </div>
+        <div class="admin-form-grid">
+          <div class="field">
+            <label for="project-before">Before photo</label>
+            <input type="file" id="project-before" accept="image/*" />
+            <p class="admin-hint">Under ~3MB. Existing photo keeps if left empty while editing.</p>
+          </div>
+          <div class="field">
+            <label for="project-after">After photo</label>
+            <input type="file" id="project-after" accept="image/*" />
+            <p class="admin-hint">Under ~3MB. Existing photo keeps if left empty while editing.</p>
+          </div>
+        </div>
+        <p class="admin-error" id="project-form-error"></p>
+        <div class="admin-form-actions">
+          <button type="button" class="btn btn-outline-dark" id="cancel-project-form">Cancel</button>
+          <button type="submit" class="btn btn-gold" id="project-form-submit">Save project</button>
+        </div>
+      </form>
+
+      <div class="admin-list" id="projects-list"></div>
+      <p class="admin-empty" id="projects-empty" hidden>No projects yet. Add your first one above.</p>
+    </section>
+
+    <!-- Testimonials tab -->
+    <section class="admin-panel" id="tab-testimonials" hidden>
+      <div class="admin-panel-head">
+        <h2>Client reviews</h2>
+        <button type="button" class="btn btn-outline-dark" id="show-add-testimonial">
+          <i class="ti ti-plus" aria-hidden="true"></i> Add review
+        </button>
+      </div>
+
+      <form class="admin-form" id="testimonial-form" hidden>
+        <div class="admin-form-grid">
+          <div class="field">
+            <label for="testimonial-name">Client name</label>
+            <input type="text" id="testimonial-name" required placeholder="Maria G." />
+          </div>
+          <div class="field">
+            <label for="testimonial-service">Service</label>
+            <input type="text" id="testimonial-service" placeholder="Roofing" />
+          </div>
+          <div class="field">
+            <label for="testimonial-location">City / area</label>
+            <input type="text" id="testimonial-location" placeholder="Clifton, NJ" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="testimonial-text">Review text</label>
+          <textarea id="testimonial-text" rows="3" required placeholder="What the client said"></textarea>
+        </div>
+        <p class="admin-error" id="testimonial-form-error"></p>
+        <div class="admin-form-actions">
+          <button type="button" class="btn btn-outline-dark" id="cancel-testimonial-form">Cancel</button>
+          <button type="submit" class="btn btn-gold" id="testimonial-form-submit">Save review</button>
+        </div>
+      </form>
+
+      <div class="admin-list" id="testimonials-list"></div>
+      <p class="admin-empty" id="testimonials-empty" hidden>No reviews yet. Add your first one above.</p>
+    </section>
+  </div>
+
+  <!-- Change password modal -->
+  <div class="info-modal" id="password-modal" role="dialog" aria-modal="true" aria-labelledby="password-modal-title">
+    <div class="info-modal-card">
+      <button class="info-modal-close" id="password-modal-close" aria-label="Close"><i class="ti ti-x" aria-hidden="true"></i></button>
+      <h3 id="password-modal-title">Change password</h3>
+      <form id="password-form">
+        <div class="field">
+          <label for="current-password">Current password</label>
+          <input type="password" id="current-password" autocomplete="current-password" required />
+        </div>
+        <div class="field">
+          <label for="new-password">New password</label>
+          <input type="password" id="new-password" autocomplete="new-password" required minlength="8" />
+          <p class="admin-hint">At least 8 characters.</p>
+        </div>
+        <p class="admin-error" id="password-form-error"></p>
+        <p class="admin-success" id="password-form-success"></p>
+        <button type="submit" class="btn btn-gold btn-block">Update password</button>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>

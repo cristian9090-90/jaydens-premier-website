@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Jayden's Premier Construction LLC | Construction &amp; Remodeling in Paterson, NJ</title>
+<meta name="description" content="Jayden's Premier Construction LLC provides roofing, siding, masonry, concrete, and remodeling services throughout New Jersey. Request a free estimate today." />
+<link rel="canonical" href="[ADD DOMAIN]" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Jayden's Premier Construction LLC" />
+<meta property="og:description" content="Construction and remodeling services throughout New Jersey. Request a free estimate." />
+<meta property="og:image" content="assets/images/hero-poster.jpg" />
+<meta property="og:url" content="[ADD DOMAIN]" />
+
+<link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png" />
+<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css" />
+
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "GeneralContractor",
+  "name": "Jayden's Premier Construction LLC",
+  "telephone": "+1-862-387-5465",
+  "email": "jaydenspremier@icloud.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Paterson",
+    "addressRegion": "NJ",
+    "addressCountry": "US"
+  },
+  "areaServed": "New Jersey",
+  "url": "[ADD DOMAIN]"
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container">
+    <a href="#top" class="brand" aria-label="Jayden's Premier Construction home">
+      <img class="brand-logo" data-brand-logo src="assets/images/logo.jpg" alt="Jayden's Premier Construction LLC logo" />
+      <span class="brand-name" data-brand-name>Jayden's Premier Construction</span>
+    </a>
+    <nav class="nav-desktop" aria-label="Primary">
+      <a href="#services">Services</a>
+      <a href="#work">Our work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="#estimate" class="btn btn-gold">Free estimate</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+      <i class="ti ti-menu-2" aria-hidden="true"></i>
+    </button>
+  </div>
+  <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile">
+    <a href="#services">Services</a>
+    <a href="#work">Our work</a>
+    <a href="#about">About</a>
+    <a href="#areas">Areas we serve</a>
+    <a href="#contact">Contact</a>
+    <a href="#estimate" class="btn btn-gold btn-block">Get a free estimate</a>
+  </nav>
+</header>
+
+<main id="main">
+
+  <section class="hero" id="top">
+    <video id="hero-video" class="hero-media" autoplay muted loop playsinline preload="metadata"></video>
+    <img id="hero-fallback-img" class="hero-media" style="display:none" alt="Roofing project in progress" />
+    <div class="hero-overlay"></div>
+    <div class="container">
+      <div class="hero-content">
+        <span class="hero-eyebrow" data-legal-name>Jayden's Premier Construction LLC</span>
+        <h1 class="hero-title">Built right. Designed to last.</h1>
+        <p class="hero-sub">Professional construction and remodeling services throughout New Jersey.</p>
+        <div class="hero-actions">
+          <a href="#estimate" class="btn btn-gold">Get a free estimate</a>
+          <a data-phone-href href="tel:+18623875465" class="btn btn-outline-light">
+            <i class="ti ti-phone" aria-hidden="true"></i> Call now
+          </a>
+        </div>
+        <ul class="hero-badges">
+          <li><i class="ti ti-users" aria-hidden="true"></i> Family-Owned and Operated</li>
+          <li><i class="ti ti-shield-check" aria-hidden="true"></i> Fully Licensed &amp; Insured</li>
+          <li><i class="ti ti-map-pin" aria-hidden="true"></i> Northern New Jersey</li>
+        </ul>
+      </div>
+    </div>
+    <i class="ti ti-chevron-down hero-scroll-hint" aria-hidden="true"></i>
+  </section>
+
+  <section class="trust-bar">
+    <div class="container" id="trust-bar-items"></div>
+  </section>
+
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="section-label">What we do</p>
+        <h2 class="section-title">Our services</h2>
+        <p class="section-sub">Full-service construction and remodeling, from roof to foundation.</p>
+      </div>
+      <div class="services-grid" id="services-grid"></div>
+    </div>
+  </section>
+
+  <section class="section" id="work" style="background:var(--cream)">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="section-label">Recent work</p>
+        <h2 class="section-title">Our work</h2>
+        <p class="section-sub">Projects will appear here as they're added — photos are placeholders until real project images are provided.</p>
+      </div>
+      <div class="projects-grid" id="projects-grid"></div>
+      <div class="projects-more-wrap" id="projects-more-wrap"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal" style="text-align:center; margin-left:auto; margin-right:auto;">
+        <p class="section-label">The transformation</p>
+        <h2 class="section-title" style="margin:0 auto;">Before &amp; after</h2>
+      </div>
+      <div class="ba-wrap reveal">
+        <div class="ba-placeholder after">[ADD AFTER IMAGE]</div>
+        <div class="ba-before-wrap">
+          <div class="ba-placeholder before">[ADD BEFORE IMAGE]</div>
+        </div>
+        <span class="ba-tag before">Before</span>
+        <span class="ba-tag after">After</span>
+        <div class="ba-divider"></div>
+        <div class="ba-handle"><i class="ti ti-arrows-horizontal" aria-hidden="true"></i></div>
+        <input type="range" class="ba-slider" min="0" max="100" value="50" role="slider" aria-label="Drag to compare before and after" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about" style="background:var(--cream)">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-media reveal" id="about-media"></div>
+        <div class="about-text reveal">
+          <p class="section-label">About us</p>
+          <h2 class="section-title">Who we are</h2>
+          <div id="about-text"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="section-label">Why Jayden's Premier</p>
+        <h2 class="section-title">Why choose us</h2>
+      </div>
+      <div class="why-grid" id="why-grid"></div>
+    </div>
+  </section>
+
+  <section class="section testimonials-band">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="section-label">Client feedback</p>
+        <h2 class="section-title">What our clients say</h2>
+      </div>
+      <div class="testimonials-grid" id="testimonials-grid"></div>
+    </div>
+  </section>
+
+  <section class="section" id="areas">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="section-label">Coverage</p>
+        <h2 class="section-title">Areas we serve</h2>
+      </div>
+      <div class="coverage-map-wrap reveal">
+        <div id="coverage-map" class="coverage-map" role="img" aria-label="Map of New Jersey counties served"></div>
+        <p class="coverage-summary" id="coverage-summary">Loading service area…</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section estimate-section" id="estimate">
+    <div class="container">
+      <div class="section-head reveal" style="text-align:center; margin-left:auto; margin-right:auto;">
+        <p class="section-label">Start your project</p>
+        <h2 class="section-title" style="margin:0 auto;">Get a free estimate</h2>
+      </div>
+
+      <form class="estimate-card reveal" id="estimate-form" novalidate>
+        <div class="form-row">
+          <div class="field">
+            <label for="name">Full name</label>
+            <input type="text" id="name" name="name" autocomplete="name" />
+            <p class="field-error" id="name-error"></p>
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel" />
+            <p class="field-error" id="phone-error"></p>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" autocomplete="email" />
+            <p class="field-error" id="email-error"></p>
+          </div>
+          <div class="field">
+            <label for="service">Service needed</label>
+            <select id="service" name="service">
+              <option value="">Select a service</option>
+              <option>Roofing</option>
+              <option>Siding</option>
+              <option>Stucco</option>
+              <option>Masonry</option>
+              <option>Chimney</option>
+              <option>Remodeling</option>
+              <option>Steps</option>
+              <option>Retaining Walls</option>
+              <option>Repointing</option>
+              <option>Concrete</option>
+              <option>Gutters</option>
+              <option disabled>Interior Remodeling (Coming Soon)</option>
+              <option>Other</option>
+            </select>
+            <p class="field-error" id="service-error"></p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="address">Project address</label>
+          <input type="text" id="address" name="address" autocomplete="street-address" />
+          <p class="field-error" id="address-error"></p>
+        </div>
+        <div class="field">
+          <label for="details">Project details</label>
+          <textarea id="details" name="details" placeholder="Tell us about the project"></textarea>
+        </div>
+        <div class="field">
+          <label id="photos-label">Upload photos (optional)</label>
+          <div class="file-drop" id="file-drop" tabindex="0" role="button" aria-labelledby="photos-label">
+            <i class="ti ti-upload" aria-hidden="true"></i>
+            JPG, PNG, or WebP — up to 6 photos, 8MB each
+          </div>
+          <input type="file" id="photos" name="photos" accept="image/jpeg,image/png,image/webp" multiple class="visually-hidden" />
+          <div class="file-list" id="file-list"></div>
+          <p class="field-error" id="photos-error"></p>
+        </div>
+
+        <div class="submit-row">
+          <button type="submit" class="btn btn-gold">
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="btn-label-idle">Get my free estimate</span>
+          </button>
+        </div>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <section class="section contact-band" id="contact">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="section-label" style="color:var(--gold-400)">Get in touch</p>
+        <h2 class="section-title" style="color:var(--white)">Contact</h2>
+      </div>
+      <div class="contact-grid reveal">
+        <div class="contact-item">
+          <i class="ti ti-phone" aria-hidden="true"></i>
+          <div><span class="label">Phone</span><a data-phone-href data-phone-text href="tel:+18623875465">862-387-5465</a></div>
+        </div>
+        <div class="contact-item">
+          <i class="ti ti-mail" aria-hidden="true"></i>
+          <div><span class="label">Email</span><a data-email-href data-email-text href="mailto:jaydenspremier@icloud.com">jaydenspremier@icloud.com</a></div>
+        </div>
+        <div class="contact-item">
+          <i class="ti ti-map-pin" aria-hidden="true"></i>
+          <div><span class="label">Location</span><span class="value" data-city-state>Paterson, NJ</span></div>
+        </div>
+        <div class="contact-item">
+          <i class="ti ti-clock" aria-hidden="true"></i>
+          <div><span class="label">Business hours</span><span class="value" data-hours>[ADD BUSINESS HOURS]</span></div>
+        </div>
+        <div class="contact-item">
+          <i class="ti ti-map-2" aria-hidden="true"></i>
+          <div><span class="label">Service area</span><span class="value">New Jersey</span></div>
+        </div>
+      </div>
+      <div class="contact-actions">
+        <a data-phone-href href="tel:+18623875465" class="btn btn-outline-light"><i class="ti ti-phone" aria-hidden="true"></i> Call now</a>
+        <a href="#estimate" class="btn btn-gold">Get a free estimate</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img data-brand-logo src="assets/images/logo.jpg" alt="Jayden's Premier Construction LLC logo" />
+          <span data-legal-name>Jayden's Premier Construction LLC</span>
+        </div>
+        <p style="font-size:13px; color:var(--concrete-600); max-width:280px;">Construction and remodeling services throughout New Jersey.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#services">Roofing</a></li>
+          <li><a href="#services">Siding</a></li>
+          <li><a href="#services">Masonry</a></li>
+          <li><a href="#services">Concrete</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#work">Our work</a></li>
+          <li><a href="#areas">Areas we serve</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a data-phone-href data-phone-text href="tel:+18623875465">862-387-5465</a></li>
+          <li><a data-email-href data-email-text href="mailto:jaydenspremier@icloud.com">jaydenspremier@icloud.com</a></li>
+          <li><a href="[ADD SOCIAL MEDIA LINK]">Facebook</a></li>
+          <li><a href="[ADD SOCIAL MEDIA LINK]">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> <span data-legal-name>Jayden's Premier Construction LLC</span>. All rights reserved.</span>
+      <div class="legal-links">
+        <a data-privacy-link href="[ADD PRIVACY POLICY URL OR PAGE]">Privacy policy</a>
+        <a data-terms-link href="[ADD TERMS URL OR PAGE]">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Before and after photo viewer">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close"><i class="ti ti-x" aria-hidden="true"></i></button>
+  <button class="lightbox-prev" id="lightbox-prev" aria-label="Previous project"><i class="ti ti-chevron-left" aria-hidden="true"></i></button>
+  <div class="lightbox-pair">
+    <div class="lightbox-pair-half">
+      <span class="lightbox-pair-tag">Before</span>
+      <img class="lightbox-img" id="lightbox-img-before" src="" alt="" />
+    </div>
+    <div class="lightbox-pair-half">
+      <span class="lightbox-pair-tag lightbox-pair-tag-after">After</span>
+      <img class="lightbox-img" id="lightbox-img-after" src="" alt="" />
+    </div>
+    <p class="lightbox-caption" id="lightbox-caption"></p>
+  </div>
+  <button class="lightbox-next" id="lightbox-next" aria-label="Next project"><i class="ti ti-chevron-right" aria-hidden="true"></i></button>
+</div>
+
+<!-- Reusable info modal, used by "Coming soon" service tiles and any future notices -->
+<div class="info-modal" id="info-modal" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
+  <div class="info-modal-card">
+    <button class="info-modal-close" id="info-modal-close" aria-label="Close"><i class="ti ti-x" aria-hidden="true"></i></button>
+    <h3 id="info-modal-title"></h3>
+    <p id="info-modal-message"></p>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script src="data.js"></script>
+<script src="script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="coverage-map.js"></script>
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

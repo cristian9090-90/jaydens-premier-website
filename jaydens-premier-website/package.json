@@ -1,0 +1,10 @@
+{
+  "name": "jaydens-premier-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static site plus a small serverless admin panel (Vercel Functions + KV + Blob). See README.md for setup.",
+  "dependencies": {
+    "@vercel/kv": "*",
+    "@vercel/blob": "*"
+  }
+}
