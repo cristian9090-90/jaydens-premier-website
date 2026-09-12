@@ -133,10 +133,10 @@
         <p class="section-label">The transformation</p>
         <h2 class="section-title" style="margin:0 auto;">Before &amp; after</h2>
       </div>
-      <div class="ba-wrap reveal">
-        <div class="ba-placeholder after">[ADD AFTER IMAGE]</div>
-        <div class="ba-before-wrap">
-          <div class="ba-placeholder before">[ADD BEFORE IMAGE]</div>
+      <div class="ba-wrap reveal" id="ba-wrap">
+        <div class="ba-slot" id="ba-after-slot"></div>
+        <div class="ba-before-wrap" id="ba-before-wrap">
+          <div class="ba-slot" id="ba-before-slot"></div>
         </div>
         <span class="ba-tag before">Before</span>
         <span class="ba-tag after">After</span>
@@ -373,14 +373,17 @@
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Before and after photo viewer">
   <button class="lightbox-close" id="lightbox-close" aria-label="Close"><i class="ti ti-x" aria-hidden="true"></i></button>
   <button class="lightbox-prev" id="lightbox-prev" aria-label="Previous project"><i class="ti ti-chevron-left" aria-hidden="true"></i></button>
-  <div class="lightbox-pair">
-    <div class="lightbox-pair-half">
-      <span class="lightbox-pair-tag">Before</span>
-      <img class="lightbox-img" id="lightbox-img-before" src="" alt="" />
-    </div>
-    <div class="lightbox-pair-half">
-      <span class="lightbox-pair-tag lightbox-pair-tag-after">After</span>
-      <img class="lightbox-img" id="lightbox-img-after" src="" alt="" />
+  <div class="lightbox-content">
+    <div class="lb-ba-wrap" id="lb-ba-wrap">
+      <img class="lb-ba-after" id="lightbox-img-after" src="" alt="" />
+      <div class="lb-ba-before-wrap" id="lb-ba-before-wrap">
+        <img class="lb-ba-before" id="lightbox-img-before" src="" alt="" />
+      </div>
+      <span class="lb-ba-tag before">Before</span>
+      <span class="lb-ba-tag after">After</span>
+      <div class="lb-ba-divider" id="lb-ba-divider"></div>
+      <div class="lb-ba-handle" id="lb-ba-handle"><i class="ti ti-arrows-horizontal" aria-hidden="true"></i></div>
+      <input type="range" class="lb-ba-slider" id="lb-ba-slider" min="0" max="100" value="50" role="slider" aria-label="Drag to compare before and after" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" />
     </div>
     <p class="lightbox-caption" id="lightbox-caption"></p>
   </div>

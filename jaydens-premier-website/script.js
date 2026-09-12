@@ -163,6 +163,19 @@
     list.innerHTML = SERVICE_AREAS.map((a) => `<li>${a}</li>`).join("");
   }
 
+  /* ---------------- Before / After content (image or placeholder) ---------------- */
+  function renderBeforeAfter() {
+    const afterSlot = $("#ba-after-slot");
+    const beforeSlot = $("#ba-before-slot");
+    if (!afterSlot || !beforeSlot) return;
+    afterSlot.innerHTML = BEFORE_AFTER.afterImage
+      ? `<img src="${BEFORE_AFTER.afterImage}" alt="${BEFORE_AFTER.afterAlt || "After"}" />`
+      : `<div class="ba-placeholder after">${BEFORE_AFTER.afterAlt || "[ADD AFTER IMAGE]"}</div>`;
+    beforeSlot.innerHTML = BEFORE_AFTER.beforeImage
+      ? `<img src="${BEFORE_AFTER.beforeImage}" alt="${BEFORE_AFTER.beforeAlt || "Before"}" />`
+      : `<div class="ba-placeholder before">${BEFORE_AFTER.beforeAlt || "[ADD BEFORE IMAGE]"}</div>`;
+  }
+
   /* ---------------- Testimonials ---------------- */
   // Each entry with a real `text` renders as a normal review. Entries still
   // using the placeholder text render as an honest "coming soon" card
@@ -193,6 +206,7 @@
 
   /* ---------------- Projects + Lightbox ---------------- */
   let lightboxIndex = 0;
+  let setLightboxBaPosition = null;
   const PROJECTS_PAGE_SIZE = 6;
   let projectsVisibleCount = PROJECTS_PAGE_SIZE;
 
@@ -262,6 +276,7 @@
     $("#lightbox-img-after").src = p.afterImage;
     $("#lightbox-img-after").alt = `${p.name} — after`;
     $("#lightbox-caption").textContent = `${p.name} — ${p.service}, ${p.location}`;
+    if (setLightboxBaPosition) setLightboxBaPosition(50);
   }
 
   function initLightbox() {
@@ -293,6 +308,28 @@
   function closeLightbox() {
     $("#lightbox").classList.remove("is-open");
     document.body.style.overflow = "";
+  }
+
+  function initLightboxBeforeAfter() {
+    const wrap = $("#lb-ba-wrap");
+    if (!wrap) return;
+    const beforeWrap = $("#lb-ba-before-wrap");
+    const divider = $("#lb-ba-divider");
+    const handle = $("#lb-ba-handle");
+    const range = $("#lb-ba-slider");
+
+    function setPosition(percent) {
+      const clamped = Math.min(96, Math.max(4, percent));
+      beforeWrap.style.width = clamped + "%";
+      divider.style.left = clamped + "%";
+      handle.style.left = clamped + "%";
+      range.value = clamped;
+      range.setAttribute("aria-valuenow", Math.round(clamped));
+    }
+
+    range.addEventListener("input", (e) => setPosition(Number(e.target.value)));
+    setPosition(50);
+    setLightboxBaPosition = setPosition;
   }
 
   /* ---------------- Before / After slider ---------------- */
@@ -630,6 +667,23 @@
     renderTestimonials();
   }
 
+  // Reads the "Before & after" photo pair from the admin panel once that
+  // endpoint exists. Until then (or if it's unreachable), this quietly
+  // keeps the placeholder/real values already set in data.js.
+  async function loadBeforeAfterFromApi() {
+    try {
+      const res = await fetch("/api/before-after");
+      if (!res.ok) throw new Error("not available");
+      const data = await res.json();
+      if (data && (data.beforeImage || data.afterImage)) {
+        Object.assign(BEFORE_AFTER, data);
+      }
+    } catch {
+      // API not available yet — keep the local data.js content.
+    }
+    renderBeforeAfter();
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     injectBusinessInfo();
     initMobileMenu();
@@ -640,7 +694,9 @@
     renderAreas();
     loadTestimonialsFromApi();
     loadProjectsFromApi();
+    loadBeforeAfterFromApi();
     initLightbox();
+    initLightboxBeforeAfter();
     initInfoModal();
     initBeforeAfter();
     initHeroVideo();

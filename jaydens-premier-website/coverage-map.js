@@ -45,16 +45,20 @@
     }
   }
 
+  // Fallback if the ZIP geocoding API (zippopotam.us) is unreachable —
+  // centers the pin on Paterson, NJ instead of showing no pin at all.
+  const FALLBACK_PIN = { lat: 40.9168, lng: -74.1718 };
+
   async function fetchPin(zip) {
     try {
       const res = await fetch(`https://api.zippopotam.us/us/${zip}`);
       if (!res.ok) throw new Error("zip lookup failed");
       const data = await res.json();
       const place = data.places && data.places[0];
-      if (!place) return null;
+      if (!place) return FALLBACK_PIN;
       return { lat: parseFloat(place.latitude), lng: parseFloat(place.longitude) };
     } catch {
-      return null;
+      return FALLBACK_PIN;
     }
   }
 
@@ -94,6 +98,10 @@
       doubleClickZoom: false,
       attributionControl: false
     });
+    // Sensible default in case the counties layer below fails to load or
+    // its bounds can't be computed — keeps the map centered on Northern NJ
+    // instead of falling back to Leaflet's default zoomed-out world view.
+    map.setView([40.9, -74.3], 8);
 
     const countyLayer = L.geoJSON(njCounties, {
       style: (feature) => {
@@ -108,11 +116,23 @@
       },
       onEachFeature: (feature, layer) => {
         const name = fipsToName(feature.id);
-        layer.bindTooltip(name + " County", { sticky: true });
+        layer.bindTooltip(name, {
+          permanent: true,
+          direction: "center",
+          className: "county-label",
+          interactive: false
+        });
       }
     }).addTo(map);
 
-    map.fitBounds(countyLayer.getBounds(), { padding: [8, 8] });
+    try {
+      const bounds = countyLayer.getBounds();
+      if (bounds.isValid()) {
+        map.fitBounds(bounds, { padding: [8, 8] });
+      }
+    } catch {
+      // Keep the Northern NJ default view set above.
+    }
 
     if (coverage.zip) {
       const pin = await fetchPin(coverage.zip);
