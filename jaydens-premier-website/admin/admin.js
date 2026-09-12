@@ -12,6 +12,14 @@
   const $ = (sel, ctx) => (ctx || document).querySelector(sel);
   const $$ = (sel, ctx) => Array.from((ctx || document).querySelectorAll(sel));
 
+  // Escapes text before it's inserted with innerHTML, so a project name,
+  // review, etc. can never be interpreted as HTML/script in your own panel.
+  function escapeHtml(str) {
+    return String(str ?? "").replace(/[&<>"']/g, (ch) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[ch]));
+  }
+
   let editingProjectId = null;
   let editingTestimonialId = null;
 
@@ -165,12 +173,12 @@
         (p) => `
       <div class="admin-item" data-id="${p.id}">
         <div class="admin-item-thumbs">
-          <img src="${p.beforeImage}" alt="Before" />
-          <img src="${p.afterImage}" alt="After" />
+          <img src="${escapeHtml(p.beforeImage)}" alt="Before" />
+          <img src="${escapeHtml(p.afterImage)}" alt="After" />
         </div>
         <div class="admin-item-body">
-          <p class="admin-item-title">${p.name}</p>
-          <p class="admin-item-meta">${p.service || ""}${p.service && p.location ? " · " : ""}${p.location || ""}</p>
+          <p class="admin-item-title">${escapeHtml(p.name)}</p>
+          <p class="admin-item-meta">${escapeHtml(p.service || "")}${p.service && p.location ? " · " : ""}${escapeHtml(p.location || "")}</p>
         </div>
         <div class="admin-item-actions">
           <button type="button" class="admin-icon-btn" data-edit-project="${p.id}"><i class="ti ti-edit" aria-hidden="true"></i></button>
@@ -292,9 +300,9 @@
         (t) => `
       <div class="admin-item" data-id="${t.id}">
         <div class="admin-item-body">
-          <p class="admin-item-title">${t.name}</p>
-          <p class="admin-item-meta">${t.service || ""}${t.service && t.location ? " · " : ""}${t.location || ""}</p>
-          <p class="admin-item-text">${t.text}</p>
+          <p class="admin-item-title">${escapeHtml(t.name)}</p>
+          <p class="admin-item-meta">${escapeHtml(t.service || "")}${t.service && t.location ? " · " : ""}${escapeHtml(t.location || "")}</p>
+          <p class="admin-item-text">${escapeHtml(t.text)}</p>
         </div>
         <div class="admin-item-actions">
           <button type="button" class="admin-icon-btn" data-edit-testimonial="${t.id}"><i class="ti ti-edit" aria-hidden="true"></i></button>
@@ -439,8 +447,8 @@
   function renderBeforeAfterPreview(data) {
     const preview = $("#beforeafter-preview");
     const thumbs = [];
-    if (data.beforeImage) thumbs.push(`<img src="${data.beforeImage}" alt="Current before" />`);
-    if (data.afterImage) thumbs.push(`<img src="${data.afterImage}" alt="Current after" />`);
+    if (data.beforeImage) thumbs.push(`<img src="${escapeHtml(data.beforeImage)}" alt="Current before" />`);
+    if (data.afterImage) thumbs.push(`<img src="${escapeHtml(data.afterImage)}" alt="Current after" />`);
     preview.innerHTML = thumbs.join("") || `<p class="admin-hint">No photos set yet — the public site shows its placeholder.</p>`;
   }
 
