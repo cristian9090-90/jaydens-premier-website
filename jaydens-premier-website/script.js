@@ -12,6 +12,15 @@
   const $$ = (sel, ctx) => Array.from((ctx || document).querySelectorAll(sel));
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // Escapes text pulled from data.js / the admin panel API before it's
+  // inserted with innerHTML, so a project name, review, etc. can never be
+  // interpreted as HTML/script by the browser.
+  function escapeHtml(str) {
+    return String(str ?? "").replace(/[&<>"']/g, (ch) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[ch]));
+  }
+
   /* ---------------- Business info injection ---------------- */
   function injectBusinessInfo() {
     $$("[data-phone-href]").forEach((el) => (el.href = SITE_CONFIG.company.phoneHref));
@@ -169,11 +178,11 @@
     const beforeSlot = $("#ba-before-slot");
     if (!afterSlot || !beforeSlot) return;
     afterSlot.innerHTML = BEFORE_AFTER.afterImage
-      ? `<img src="${BEFORE_AFTER.afterImage}" alt="${BEFORE_AFTER.afterAlt || "After"}" />`
-      : `<div class="ba-placeholder after">${BEFORE_AFTER.afterAlt || "[ADD AFTER IMAGE]"}</div>`;
+      ? `<img src="${escapeHtml(BEFORE_AFTER.afterImage)}" alt="${escapeHtml(BEFORE_AFTER.afterAlt || "After")}" />`
+      : `<div class="ba-placeholder after">${escapeHtml(BEFORE_AFTER.afterAlt || "[ADD AFTER IMAGE]")}</div>`;
     beforeSlot.innerHTML = BEFORE_AFTER.beforeImage
-      ? `<img src="${BEFORE_AFTER.beforeImage}" alt="${BEFORE_AFTER.beforeAlt || "Before"}" />`
-      : `<div class="ba-placeholder before">${BEFORE_AFTER.beforeAlt || "[ADD BEFORE IMAGE]"}</div>`;
+      ? `<img src="${escapeHtml(BEFORE_AFTER.beforeImage)}" alt="${escapeHtml(BEFORE_AFTER.beforeAlt || "Before")}" />`
+      : `<div class="ba-placeholder before">${escapeHtml(BEFORE_AFTER.beforeAlt || "[ADD BEFORE IMAGE]")}</div>`;
   }
 
   /* ---------------- Testimonials ---------------- */
@@ -196,9 +205,9 @@
       return `
       <div class="testimonial-card">
         <i class="ti ti-quote" aria-hidden="true"></i>
-        <p class="quote">${t.text}</p>
-        <p class="testimonial-meta">${t.name}${t.location ? " &middot; " + t.location : ""}
-          ${t.service ? `<span>${t.service}</span>` : ""}
+        <p class="quote">${escapeHtml(t.text)}</p>
+        <p class="testimonial-meta">${escapeHtml(t.name)}${t.location ? " &middot; " + escapeHtml(t.location) : ""}
+          ${t.service ? `<span>${escapeHtml(t.service)}</span>` : ""}
         </p>
       </div>`;
     }).join("");
@@ -215,20 +224,20 @@
     const visible = PROJECTS.slice(0, projectsVisibleCount);
     grid.innerHTML = visible.map(
       (p, i) => `
-      <button class="project-card reveal" type="button" data-index="${i}" aria-label="View before and after photos: ${p.name}">
+      <button class="project-card reveal" type="button" data-index="${i}" aria-label="View before and after photos: ${escapeHtml(p.name)}">
         <div class="project-media-pair">
           <div class="project-media-half">
-            ${p.beforeImage ? `<img src="${p.beforeImage}" alt="${p.name} — before" loading="lazy" />` : ""}
+            ${p.beforeImage ? `<img src="${escapeHtml(p.beforeImage)}" alt="${escapeHtml(p.name)} — before" loading="lazy" />` : ""}
             <span class="project-media-tag">Before</span>
           </div>
           <div class="project-media-half">
-            ${p.afterImage ? `<img src="${p.afterImage}" alt="${p.name} — after" loading="lazy" />` : ""}
+            ${p.afterImage ? `<img src="${escapeHtml(p.afterImage)}" alt="${escapeHtml(p.name)} — after" loading="lazy" />` : ""}
             <span class="project-media-tag project-media-tag-after">After</span>
           </div>
         </div>
         <div class="project-body">
-          <h3>${p.name}</h3>
-          <p class="project-meta">${p.service} &middot; ${p.location}</p>
+          <h3>${escapeHtml(p.name)}</h3>
+          <p class="project-meta">${escapeHtml(p.service)} &middot; ${escapeHtml(p.location)}</p>
         </div>
       </button>`
     ).join("");
