@@ -415,6 +415,13 @@
   function initEstimateForm() {
     const form = $("#estimate-form");
     if (!form) return;
+
+    // Without this, dropping an image anywhere on the page slightly
+    // outside the drop zone below makes the browser open it full-page
+    // instead of ignoring it.
+    window.addEventListener("dragover", (e) => e.preventDefault());
+    window.addEventListener("drop", (e) => e.preventDefault());
+
     const fileInput = $("#photos", form);
     const fileDrop = $("#file-drop", form);
     const fileList = $("#file-list", form);
