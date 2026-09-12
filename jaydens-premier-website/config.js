@@ -62,7 +62,7 @@ const SITE_CONFIG = {
   // (same account used for HomeQuotePro is fine — different template).
   emailjs: {
     serviceId: "service_ckxhlpc",
-    templateId: "template_fzpf387",
+    templateId: "template_llh8ryr",
     publicKey: "AmNhsYyCAW_N9MMPi"
   },
 
