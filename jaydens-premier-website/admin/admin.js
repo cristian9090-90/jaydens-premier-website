@@ -15,6 +15,15 @@
   let editingProjectId = null;
   let editingTestimonialId = null;
 
+  // Must match the county names used in coverage-map.js exactly
+  // (no "County" suffix) — this is what gets saved to /api/coverage.
+  const NJ_COUNTIES = [
+    "Atlantic", "Bergen", "Burlington", "Camden", "Cape May", "Cumberland",
+    "Essex", "Gloucester", "Hudson", "Hunterdon", "Mercer", "Middlesex",
+    "Monmouth", "Morris", "Ocean", "Passaic", "Salem", "Somerset",
+    "Sussex", "Union", "Warren"
+  ];
+
   /* ---------------- API helper ---------------- */
   async function api(path, options) {
     const res = await fetch(path, {
@@ -70,6 +79,8 @@
     if (authenticated) {
       loadProjects();
       loadTestimonials();
+      loadCoverage();
+      loadBeforeAfter();
     }
   }
 
@@ -108,13 +119,21 @@
 
   /* ---------------- Tabs ---------------- */
   function initTabs() {
+    const panelIds = {
+      projects: "#tab-projects",
+      testimonials: "#tab-testimonials",
+      coverage: "#tab-coverage",
+      beforeafter: "#tab-beforeafter"
+    };
     $$(".admin-tab").forEach((tab) => {
       tab.addEventListener("click", () => {
         $$(".admin-tab").forEach((t) => t.classList.remove("is-active"));
         tab.classList.add("is-active");
         const target = tab.dataset.tab;
-        $("#tab-projects").hidden = target !== "projects";
-        $("#tab-testimonials").hidden = target !== "testimonials";
+        Object.keys(panelIds).forEach((key) => {
+          const el = $(panelIds[key]);
+          if (el) el.hidden = key !== target;
+        });
       });
     });
   }
@@ -364,6 +383,108 @@
     });
   }
 
+  /* ---------------- Coverage (counties + ZIP) ---------------- */
+  function renderCoverageCheckboxes(selectedCounties) {
+    const grid = $("#coverage-counties-grid");
+    const selected = new Set(selectedCounties || []);
+    grid.innerHTML = NJ_COUNTIES.map((county, i) => {
+      const id = `coverage-county-${i}`;
+      const checked = selected.has(county) ? "checked" : "";
+      return `
+      <label class="admin-checkbox-item" for="${id}">
+        <input type="checkbox" id="${id}" value="${county}" ${checked} />
+        ${county}
+      </label>`;
+    }).join("");
+  }
+
+  async function loadCoverage() {
+    try {
+      const coverage = await api("/api/coverage");
+      $("#coverage-zip").value = coverage.zip || "";
+      renderCoverageCheckboxes(coverage.counties || []);
+    } catch (err) {
+      renderCoverageCheckboxes([]);
+      $("#coverage-form-error").textContent = "Couldn't load current coverage: " + err.message;
+    }
+  }
+
+  function initCoverageForm() {
+    $("#coverage-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const errorEl = $("#coverage-form-error");
+      const successEl = $("#coverage-form-success");
+      errorEl.textContent = "";
+      successEl.textContent = "";
+      const submitBtn = $("#coverage-form-submit");
+      submitBtn.disabled = true;
+
+      try {
+        const zip = $("#coverage-zip").value.trim();
+        if (!/^\d{5}$/.test(zip)) {
+          throw new Error("ZIP code must be exactly 5 digits.");
+        }
+        const counties = $$("#coverage-counties-grid input[type=checkbox]:checked").map((cb) => cb.value);
+        await api("/api/coverage", { method: "PUT", body: JSON.stringify({ counties, zip }) });
+        successEl.textContent = "Coverage updated — the public map will reflect this now.";
+      } catch (err) {
+        errorEl.textContent = err.message || "Couldn't save coverage.";
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  }
+
+  /* ---------------- Before / After (placeholder photo) ---------------- */
+  function renderBeforeAfterPreview(data) {
+    const preview = $("#beforeafter-preview");
+    const thumbs = [];
+    if (data.beforeImage) thumbs.push(`<img src="${data.beforeImage}" alt="Current before" />`);
+    if (data.afterImage) thumbs.push(`<img src="${data.afterImage}" alt="Current after" />`);
+    preview.innerHTML = thumbs.join("") || `<p class="admin-hint">No photos set yet — the public site shows its placeholder.</p>`;
+  }
+
+  async function loadBeforeAfter() {
+    try {
+      const data = await api("/api/before-after");
+      renderBeforeAfterPreview(data);
+    } catch (err) {
+      $("#beforeafter-form-error").textContent = "Couldn't load current photos: " + err.message;
+    }
+  }
+
+  function initBeforeAfterForm() {
+    $("#beforeafter-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const errorEl = $("#beforeafter-form-error");
+      const successEl = $("#beforeafter-form-success");
+      errorEl.textContent = "";
+      successEl.textContent = "";
+      const submitBtn = $("#beforeafter-form-submit");
+      submitBtn.disabled = true;
+
+      try {
+        const beforeFile = $("#beforeafter-before").files[0];
+        const afterFile = $("#beforeafter-after").files[0];
+        if (!beforeFile && !afterFile) {
+          throw new Error("Choose at least one photo to update.");
+        }
+        const payload = {};
+        if (beforeFile) payload.beforeImage = await uploadImage(beforeFile);
+        if (afterFile) payload.afterImage = await uploadImage(afterFile);
+
+        const updated = await api("/api/before-after", { method: "PUT", body: JSON.stringify(payload) });
+        renderBeforeAfterPreview(updated);
+        $("#beforeafter-form").reset();
+        successEl.textContent = "Photos updated — the public site will reflect this now.";
+      } catch (err) {
+        errorEl.textContent = err.message || "Couldn't save the photos.";
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  }
+
   /* ---------------- Change password ---------------- */
   function initPasswordModal() {
     const modal = $("#password-modal");
@@ -407,6 +528,8 @@
     initTabs();
     initProjectForm();
     initTestimonialForm();
+    initCoverageForm();
+    initBeforeAfterForm();
     initPasswordModal();
     checkSession();
   });

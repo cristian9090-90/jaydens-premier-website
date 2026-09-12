@@ -88,7 +88,17 @@
 .admin-icon-btn:hover { border-color: var(--gold-500); }
 .admin-icon-btn-danger { color: #993C1D; }
 
+/* ---------- Coverage counties checkbox grid ---------- */
+.admin-checkbox-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px 16px; margin-top: 6px;
+}
+.admin-checkbox-item {
+  display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink);
+}
+.admin-checkbox-item input { width: auto; margin: 0; }
+
 @media (max-width: 720px) {
   .admin-form-grid { grid-template-columns: 1fr; }
+  .admin-checkbox-grid { grid-template-columns: repeat(2, 1fr); }
   .admin-topbar { flex-wrap: wrap; gap: 10px; }
 }

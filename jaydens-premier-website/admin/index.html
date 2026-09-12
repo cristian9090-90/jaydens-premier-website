@@ -56,6 +56,8 @@
     <nav class="admin-tabs">
       <button type="button" class="admin-tab is-active" data-tab="projects">Projects</button>
       <button type="button" class="admin-tab" data-tab="testimonials">Reviews</button>
+      <button type="button" class="admin-tab" data-tab="coverage">Coverage</button>
+      <button type="button" class="admin-tab" data-tab="beforeafter">Before &amp; After</button>
     </nav>
 
     <!-- Projects tab -->
@@ -142,6 +144,57 @@
 
       <div class="admin-list" id="testimonials-list"></div>
       <p class="admin-empty" id="testimonials-empty" hidden>No reviews yet. Add your first one above.</p>
+    </section>
+
+    <!-- Coverage tab -->
+    <section class="admin-panel" id="tab-coverage" hidden>
+      <div class="admin-panel-head">
+        <h2>Areas we serve</h2>
+      </div>
+
+      <form class="admin-form" id="coverage-form">
+        <div class="field">
+          <label for="coverage-zip">Business ZIP code (for the map pin)</label>
+          <input type="text" id="coverage-zip" placeholder="07522" maxlength="5" required style="max-width: 160px;" />
+        </div>
+        <div class="field">
+          <label>Counties served</label>
+          <div class="admin-checkbox-grid" id="coverage-counties-grid"></div>
+        </div>
+        <p class="admin-error" id="coverage-form-error"></p>
+        <p class="admin-success" id="coverage-form-success"></p>
+        <div class="admin-form-actions">
+          <button type="submit" class="btn btn-gold" id="coverage-form-submit">Save coverage</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Before & After (placeholder) tab -->
+    <section class="admin-panel" id="tab-beforeafter" hidden>
+      <div class="admin-panel-head">
+        <h2>"The transformation" photo</h2>
+      </div>
+
+      <form class="admin-form" id="beforeafter-form">
+        <div class="admin-item-thumbs" id="beforeafter-preview" style="margin-bottom: 14px;"></div>
+        <div class="admin-form-grid">
+          <div class="field">
+            <label for="beforeafter-before">Before photo</label>
+            <input type="file" id="beforeafter-before" accept="image/*" />
+            <p class="admin-hint">Under ~3MB. Leave empty to keep the current photo.</p>
+          </div>
+          <div class="field">
+            <label for="beforeafter-after">After photo</label>
+            <input type="file" id="beforeafter-after" accept="image/*" />
+            <p class="admin-hint">Under ~3MB. Leave empty to keep the current photo.</p>
+          </div>
+        </div>
+        <p class="admin-error" id="beforeafter-form-error"></p>
+        <p class="admin-success" id="beforeafter-form-success"></p>
+        <div class="admin-form-actions">
+          <button type="submit" class="btn btn-gold" id="beforeafter-form-submit">Save photos</button>
+        </div>
+      </form>
     </section>
   </div>
 
