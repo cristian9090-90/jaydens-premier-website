@@ -256,29 +256,17 @@ p { margin: 0; }
 }
 .lightbox.is-open { display: flex; }
 .lightbox-content { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: min(1000px, 92vw); }
-.lb-ba-wrap {
-  position: relative; width: 100%; aspect-ratio: 16 / 9;
+.lightbox-photo-wrap {
+  position: relative; width: 100%; aspect-ratio: 4 / 3;
   border-radius: var(--radius-md); overflow: hidden; border: 1px solid rgba(255,255,255,0.15);
-  background: var(--concrete-500); touch-action: pan-y;
+  background: var(--concrete-500);
 }
-.lb-ba-after, .lb-ba-before { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-.lb-ba-before-wrap { position: absolute; inset: 0; overflow: hidden; width: 50%; }
-.lb-ba-before-wrap img { width: 100%; height: 100%; object-fit: cover; }
-.lb-ba-tag {
-  position: absolute; top: 12px; font-size: 11px; font-weight: 600; letter-spacing: 0.02em;
+.lightbox-photo { display: block; width: 100%; height: 100%; object-fit: contain; background: #0f1420; }
+.lightbox-tag {
+  position: absolute; top: 12px; left: 12px; font-size: 11px; font-weight: 600; letter-spacing: 0.02em;
   background: rgba(15,35,64,0.85); color: #fff; padding: 4px 10px; border-radius: var(--radius-sm); z-index: 2;
 }
-.lb-ba-tag.before { left: 12px; }
-.lb-ba-tag.after { right: 12px; background: var(--gold-500); color: var(--navy-900); }
-.lb-ba-divider { position: absolute; top: 0; bottom: 0; width: 3px; background: var(--gold-500); }
-.lb-ba-handle {
-  position: absolute; top: 50%; width: 40px; height: 40px; border-radius: 50%; background: var(--gold-500);
-  display: flex; align-items: center; justify-content: center; transform: translate(-50%, -50%);
-  border: none; color: #3A2A0C; font-size: 18px;
-}
-.lb-ba-slider {
-  position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize;
-}
+.lightbox-tag.after { background: var(--gold-500); color: var(--navy-900); }
 .lightbox-caption { color: #fff; text-align: center; margin-top: 14px; font-size: 14px; width: 100%; }
 .lightbox-close, .lightbox-prev, .lightbox-next {
   position: absolute; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.25);

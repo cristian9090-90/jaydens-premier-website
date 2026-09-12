@@ -370,24 +370,17 @@
   </div>
 </footer>
 
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Before and after photo viewer">
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Project photo viewer">
   <button class="lightbox-close" id="lightbox-close" aria-label="Close"><i class="ti ti-x" aria-hidden="true"></i></button>
-  <button class="lightbox-prev" id="lightbox-prev" aria-label="Previous project"><i class="ti ti-chevron-left" aria-hidden="true"></i></button>
+  <button class="lightbox-prev" id="lightbox-prev" aria-label="Previous photo"><i class="ti ti-chevron-left" aria-hidden="true"></i></button>
   <div class="lightbox-content">
-    <div class="lb-ba-wrap" id="lb-ba-wrap">
-      <img class="lb-ba-after" id="lightbox-img-after" src="" alt="" />
-      <div class="lb-ba-before-wrap" id="lb-ba-before-wrap">
-        <img class="lb-ba-before" id="lightbox-img-before" src="" alt="" />
-      </div>
-      <span class="lb-ba-tag before">Before</span>
-      <span class="lb-ba-tag after">After</span>
-      <div class="lb-ba-divider" id="lb-ba-divider"></div>
-      <div class="lb-ba-handle" id="lb-ba-handle"><i class="ti ti-arrows-horizontal" aria-hidden="true"></i></div>
-      <input type="range" class="lb-ba-slider" id="lb-ba-slider" min="0" max="100" value="50" role="slider" aria-label="Drag to compare before and after" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" />
+    <div class="lightbox-photo-wrap" id="lightbox-photo-wrap">
+      <span class="lightbox-tag" id="lightbox-tag">Before</span>
+      <img class="lightbox-photo" id="lightbox-img" src="" alt="" />
     </div>
     <p class="lightbox-caption" id="lightbox-caption"></p>
   </div>
-  <button class="lightbox-next" id="lightbox-next" aria-label="Next project"><i class="ti ti-chevron-right" aria-hidden="true"></i></button>
+  <button class="lightbox-next" id="lightbox-next" aria-label="Next photo"><i class="ti ti-chevron-right" aria-hidden="true"></i></button>
 </div>
 
 <!-- Reusable info modal, used by "Coming soon" service tiles and any future notices -->

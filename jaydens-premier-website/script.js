@@ -206,7 +206,6 @@
 
   /* ---------------- Projects + Lightbox ---------------- */
   let lightboxIndex = 0;
-  let setLightboxBaPosition = null;
   const PROJECTS_PAGE_SIZE = 6;
   let projectsVisibleCount = PROJECTS_PAGE_SIZE;
 
@@ -260,42 +259,56 @@
     });
   }
 
-  function openLightbox(index) {
+  function getFlatLightboxPhotos() {
     const withPhotos = PROJECTS.filter((p) => p.beforeImage && p.afterImage);
-    if (!withPhotos.length) return; // nothing real to show yet
-    lightboxIndex = Math.max(0, withPhotos.findIndex((p) => p === PROJECTS[index]));
-    updateLightbox(withPhotos);
+    const flat = [];
+    withPhotos.forEach((p) => {
+      flat.push({ project: p, image: p.beforeImage, label: "Before" });
+      flat.push({ project: p, image: p.afterImage, label: "After" });
+    });
+    return flat;
+  }
+
+  function openLightbox(index) {
+    const flat = getFlatLightboxPhotos();
+    if (!flat.length) return; // nothing real to show yet
+    const clickedProject = PROJECTS[index];
+    const foundAt = flat.findIndex((f) => f.project === clickedProject);
+    lightboxIndex = foundAt >= 0 ? foundAt : 0;
+    updateLightbox(flat);
     $("#lightbox").classList.add("is-open");
     document.body.style.overflow = "hidden";
   }
 
-  function updateLightbox(withPhotos) {
-    const p = withPhotos[lightboxIndex];
-    $("#lightbox-img-before").src = p.beforeImage;
-    $("#lightbox-img-before").alt = `${p.name} — before`;
-    $("#lightbox-img-after").src = p.afterImage;
-    $("#lightbox-img-after").alt = `${p.name} — after`;
-    $("#lightbox-caption").textContent = `${p.name} — ${p.service}, ${p.location}`;
-    if (setLightboxBaPosition) setLightboxBaPosition(50);
+  function updateLightbox(flat) {
+    const item = flat[lightboxIndex];
+    const img = $("#lightbox-img");
+    img.src = item.image;
+    img.alt = `${item.project.name} — ${item.label.toLowerCase()}`;
+    const tag = $("#lightbox-tag");
+    tag.textContent = item.label;
+    tag.className = "lightbox-tag" + (item.label === "After" ? " after" : "");
+    $("#lightbox-caption").textContent = `${item.project.name} — ${item.project.service}, ${item.project.location}`;
   }
 
   function initLightbox() {
     const box = $("#lightbox");
     if (!box) return;
-    const withPhotos = () => PROJECTS.filter((p) => p.beforeImage && p.afterImage);
     $("#lightbox-close").addEventListener("click", closeLightbox);
     box.addEventListener("click", (e) => {
       if (e.target === box) closeLightbox();
     });
     $("#lightbox-prev").addEventListener("click", () => {
-      const list = withPhotos();
-      lightboxIndex = (lightboxIndex - 1 + list.length) % list.length;
-      updateLightbox(list);
+      const flat = getFlatLightboxPhotos();
+      if (!flat.length) return;
+      lightboxIndex = (lightboxIndex - 1 + flat.length) % flat.length;
+      updateLightbox(flat);
     });
     $("#lightbox-next").addEventListener("click", () => {
-      const list = withPhotos();
-      lightboxIndex = (lightboxIndex + 1) % list.length;
-      updateLightbox(list);
+      const flat = getFlatLightboxPhotos();
+      if (!flat.length) return;
+      lightboxIndex = (lightboxIndex + 1) % flat.length;
+      updateLightbox(flat);
     });
     document.addEventListener("keydown", (e) => {
       if (!box.classList.contains("is-open")) return;
@@ -303,33 +316,34 @@
       if (e.key === "ArrowLeft") $("#lightbox-prev").click();
       if (e.key === "ArrowRight") $("#lightbox-next").click();
     });
+
+    // Swipe support — behaves like a phone photo gallery: swipe left/right
+    // to move between Before/After and on into the next/previous project.
+    let touchStartX = null;
+    box.addEventListener(
+      "touchstart",
+      (e) => {
+        touchStartX = e.changedTouches[0].clientX;
+      },
+      { passive: true }
+    );
+    box.addEventListener(
+      "touchend",
+      (e) => {
+        if (touchStartX === null) return;
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        const SWIPE_THRESHOLD = 40;
+        if (dx > SWIPE_THRESHOLD) $("#lightbox-prev").click();
+        else if (dx < -SWIPE_THRESHOLD) $("#lightbox-next").click();
+        touchStartX = null;
+      },
+      { passive: true }
+    );
   }
 
   function closeLightbox() {
     $("#lightbox").classList.remove("is-open");
     document.body.style.overflow = "";
-  }
-
-  function initLightboxBeforeAfter() {
-    const wrap = $("#lb-ba-wrap");
-    if (!wrap) return;
-    const beforeWrap = $("#lb-ba-before-wrap");
-    const divider = $("#lb-ba-divider");
-    const handle = $("#lb-ba-handle");
-    const range = $("#lb-ba-slider");
-
-    function setPosition(percent) {
-      const clamped = Math.min(96, Math.max(4, percent));
-      beforeWrap.style.width = clamped + "%";
-      divider.style.left = clamped + "%";
-      handle.style.left = clamped + "%";
-      range.value = clamped;
-      range.setAttribute("aria-valuenow", Math.round(clamped));
-    }
-
-    range.addEventListener("input", (e) => setPosition(Number(e.target.value)));
-    setPosition(50);
-    setLightboxBaPosition = setPosition;
   }
 
   /* ---------------- Before / After slider ---------------- */
@@ -696,7 +710,6 @@
     loadProjectsFromApi();
     loadBeforeAfterFromApi();
     initLightbox();
-    initLightboxBeforeAfter();
     initInfoModal();
     initBeforeAfter();
     initHeroVideo();
