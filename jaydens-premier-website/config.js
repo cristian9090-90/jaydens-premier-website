@@ -56,10 +56,15 @@ const SITE_CONFIG = {
     socialShareImage: "assets/images/hero-poster.jpg"
   },
 
-  // Formspree (or similar) endpoint for the estimate request form.
-  // Until this is set, the form will show an honest "not yet connected"
-  // message instead of pretending to submit.
-  formEndpoint: "[ADD FORMSPREE ENDPOINT]",
+  // EmailJS setup for the estimate request form. Until these are set,
+  // the form will show an honest "not yet connected" message instead
+  // of pretending to submit. Get these values from dashboard.emailjs.com
+  // (same account used for HomeQuotePro is fine — different template).
+  emailjs: {
+    serviceId: "service_ckxhlpc",
+    templateId: "template_fzpf387",
+    publicKey: "AmNhsYyCAW_N9MMPi"
+  },
 
   // Hero media. Swap these files (same names) to update the hero
   // without touching any code.

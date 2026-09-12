@@ -533,10 +533,16 @@
         return;
       }
 
-      if (!SITE_CONFIG.formEndpoint || SITE_CONFIG.formEndpoint.startsWith("[ADD")) {
+      const ej = SITE_CONFIG.emailjs || {};
+      const ejMissing =
+        !ej.serviceId || !ej.templateId || !ej.publicKey ||
+        String(ej.serviceId).startsWith("[ADD") ||
+        String(ej.templateId).startsWith("[ADD") ||
+        String(ej.publicKey).startsWith("[ADD");
+      if (ejMissing) {
         setStatus(
           "notice",
-          "This form is not yet connected to an email service. Add a Formspree endpoint in config.js to start receiving leads — see the README."
+          "This form is not yet connected to an email service. Add your EmailJS serviceId/templateId/publicKey in config.js to start receiving leads."
         );
         return;
       }
@@ -546,23 +552,31 @@
       status.classList.remove("is-visible");
 
       try {
-        const formData = new FormData(form);
-        selectedFiles.forEach((file, i) => formData.append(`photo_${i + 1}`, file));
+        const templateParams = {
+          name: form.elements["name"].value.trim(),
+          phone: form.elements["phone"].value.trim(),
+          email: form.elements["email"].value.trim(),
+          service: form.elements["service"].value.trim(),
+          address: form.elements["address"].value.trim(),
+          details: form.elements["details"].value.trim() || "(none provided)"
+        };
 
-        const response = await fetch(SITE_CONFIG.formEndpoint, {
-          method: "POST",
-          body: formData,
-          headers: { Accept: "application/json" }
-        });
-
-        if (response.ok) {
-          setStatus("success", "Thanks — your request was sent. We'll be in touch shortly.");
-          form.reset();
-          selectedFiles = [];
-          renderFileList();
-        } else {
-          setStatus("error", "Something went wrong sending your request. Please call or email us directly.");
+        // Note: EmailJS's free plan does not support sending photo
+        // attachments by email. Selected photo file names are included
+        // in the message below so nothing is silently lost, but the
+        // actual image files are not attached to the email itself.
+        if (selectedFiles.length) {
+          templateParams.details +=
+            "\n\nPhotos attached on form (not emailed): " +
+            selectedFiles.map((f) => f.name).join(", ");
         }
+
+        await emailjs.send(ej.serviceId, ej.templateId, templateParams, ej.publicKey);
+
+        setStatus("success", "Thanks — your request was sent. We'll be in touch shortly.");
+        form.reset();
+        selectedFiles = [];
+        renderFileList();
       } catch (err) {
         setStatus("error", "Something went wrong sending your request. Please call or email us directly.");
       } finally {
