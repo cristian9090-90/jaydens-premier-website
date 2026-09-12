@@ -52,7 +52,7 @@ const SITE_CONFIG = {
     title: "Jayden's Premier Construction LLC | Construction & Remodeling in Paterson, NJ",
     description:
       "Jayden's Premier Construction LLC provides roofing, siding, masonry, concrete, and remodeling services throughout New Jersey. Request a free estimate today.",
-    canonicalUrl: "[ADD DOMAIN]",
+    canonicalUrl: "https://jaydens-premier-website.vercel.app",
     socialShareImage: "assets/images/hero-poster.jpg"
   },
 
